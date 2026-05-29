@@ -33,6 +33,11 @@ class GameView(context: Context) : SurfaceView(context), SurfaceHolder.Callback 
         gameThread = null
     }
 
+    override fun performClick(): Boolean {
+        super.performClick()
+        return true
+    }
+
     override fun onTouchEvent(event: MotionEvent): Boolean {
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
