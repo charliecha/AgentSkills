@@ -1,0 +1,22 @@
+# Gradle
+.gradle/
+build/
+local.properties
+*.ap_
+
+# Android Studio
+.idea/
+*.iml
+.DS_Store
+
+# APK / AAR
+*.apk
+*.aab
+*.aar
+
+# Keystore
+*.jks
+*.keystore
+
+# Generated
+app/build/
