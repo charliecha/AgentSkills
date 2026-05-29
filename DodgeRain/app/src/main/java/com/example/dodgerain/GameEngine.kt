@@ -15,6 +15,7 @@ class GameEngine(private val screenWidth: Int, private val screenHeight: Int) {
         const val OBSTACLE_INTERVAL_MS = 800L
         const val SPEED_INCREMENT_INTERVAL_MS = 5000L
         const val INVINCIBLE_DURATION_MS = 1500L
+        const val SCORE_INTERVAL_MS = 1000L
     }
 
     var state: GameState = GameState.IDLE
@@ -96,8 +97,8 @@ class GameEngine(private val screenWidth: Int, private val screenHeight: Int) {
         }
 
         scoreTimer += deltaMs
-        while (scoreTimer >= 1000L) {
-            scoreTimer -= 1000L
+        while (scoreTimer >= SCORE_INTERVAL_MS) {
+            scoreTimer -= SCORE_INTERVAL_MS
             scoreSeconds++
         }
     }

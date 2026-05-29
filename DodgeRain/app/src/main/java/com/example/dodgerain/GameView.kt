@@ -26,9 +26,9 @@ class GameView(context: Context) : SurfaceView(context), SurfaceHolder.Callback 
     override fun surfaceChanged(h: SurfaceHolder, format: Int, width: Int, height: Int) {}
 
     override fun surfaceDestroyed(h: SurfaceHolder) {
-        gameThread?.let {
-            it.running = false
-            it.join()
+        gameThread?.apply {
+            running = false
+            join()
         }
         gameThread = null
     }
