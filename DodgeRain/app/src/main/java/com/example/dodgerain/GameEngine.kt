@@ -73,8 +73,12 @@ class GameEngine(private val screenWidth: Int, private val screenHeight: Int) {
             obstacles.add(Obstacle(x = ox))
         }
 
-        obstacles.forEach { it.update(currentSpeed) }
-        obstacles.removeAll { it.isOffScreen(screenHeight) }
+        val iter = obstacles.iterator()
+        while (iter.hasNext()) {
+            val obs = iter.next()
+            obs.update(currentSpeed)
+            if (obs.isOffScreen(screenHeight)) iter.remove()
+        }
 
         if (invincibleTimer > 0L) {
             invincibleTimer -= deltaMs
