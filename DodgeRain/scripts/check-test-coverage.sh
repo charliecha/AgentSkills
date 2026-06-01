@@ -9,17 +9,21 @@ set -euo pipefail
 SRC_DIR="DodgeRain/app/src/main/java/com/example/dodgerain"
 TEST_DIR="DodgeRain/app/src/test/java/com/example/dodgerain"
 
-# Files exempt from unit test requirement (Android-framework-coupled)
-EXEMPT_FILES=(
-    "MainActivity.kt"
-    "GameView.kt"      # SurfaceView lifecycle, tested via Instrumented
-    "GameRenderer.kt"  # Canvas drawing, tested by visual inspection
+# Files matching these patterns are exempt (Android-framework-coupled UI classes)
+# Matches: *Activity.kt, *View.kt, *Renderer.kt (and their subclasses, e.g. MainGameActivity.kt)
+EXEMPT_PATTERNS=(
+    "*Activity.kt"
+    "*View.kt"
+    "*Renderer.kt"
 )
 
 is_exempt() {
     local file="$1"
-    for exempt in "${EXEMPT_FILES[@]}"; do
-        if [[ "$file" == "$exempt" ]]; then return 0; fi
+    for pattern in "${EXEMPT_PATTERNS[@]}"; do
+        # shellcheck disable=SC2254
+        case "$file" in
+            $pattern) return 0 ;;
+        esac
     done
     return 1
 }

@@ -95,7 +95,7 @@ jobs:
             --fail-under=80 \
             --diff-range-notation=".." \
             --src-roots DodgeRain/app/src/main/java \
-            --html-report DodgeRain/app/build/reports/diff-cover.html
+            --format html:DodgeRain/app/build/reports/diff-cover.html
 
       - name: Upload test report
         if: always()
