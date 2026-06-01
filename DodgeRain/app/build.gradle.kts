@@ -19,6 +19,9 @@ android {
     }
 
     buildTypes {
+        debug {
+            enableUnitTestCoverage = true
+        }
         release {
             isMinifyEnabled = false
         }
@@ -56,7 +59,13 @@ tasks.register<JacocoReport>("jacocoCoverageReport") {
     )
     sourceDirectories.setFrom(files("src/main/java", "src/main/kotlin"))
     executionData.setFrom(
-        fileTree(layout.buildDirectory.get()) { include("**/*.exec", "**/*.ec") }
+        fileTree(layout.buildDirectory.get()) {
+            include(
+                "outputs/unit_test_code_coverage/debugUnitTest/*.exec",
+                "jacoco/*.exec",
+                "jacoco/*.ec"
+            )
+        }
     )
 }
 
