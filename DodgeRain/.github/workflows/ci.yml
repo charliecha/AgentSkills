@@ -7,6 +7,28 @@ on:
     branches: [main]
 
 jobs:
+  workflow-compliance:
+    name: Workflow Compliance
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check commit messages
+        run: bash DodgeRain/scripts/check-commit-message.sh --range origin/${{ github.base_ref }}..HEAD
+
+      - name: Check spec reference in PR body
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: bash DodgeRain/scripts/check-spec-reference.sh
+
+      - name: Check test coverage for new code
+        run: bash DodgeRain/scripts/check-test-coverage.sh
+        env:
+          GITHUB_BASE_REF: ${{ github.base_ref }}
+
   lint:
     name: Lint
     runs-on: ubuntu-latest
