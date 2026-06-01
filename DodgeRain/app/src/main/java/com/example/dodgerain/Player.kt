@@ -13,4 +13,8 @@ data class Player(
     }
 
     fun toRect() = RectF(x, y, x + width, y + height)
+
+    // Returns true if player is fully within screen bounds
+    fun isInBounds(screenWidth: Int): Boolean =
+        x >= 0f && x + width <= screenWidth
 }
