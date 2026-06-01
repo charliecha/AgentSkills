@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    jacoco
 }
 
 android {
@@ -29,6 +30,34 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+}
+
+tasks.register<JacocoReport>("jacocoCoverageReport") {
+    dependsOn("testDebugUnitTest")
+
+    reports {
+        xml.required.set(true)
+        xml.outputLocation.set(layout.buildDirectory.file("reports/jacoco/jacocoCoverageReport/jacocoCoverageReport.xml"))
+    }
+
+    val excludes = listOf(
+        "**/*Activity*",
+        "**/*View*",
+        "**/*Renderer*",
+        "**/R.class",
+        "**/R$*.class",
+        "**/BuildConfig.*",
+        "**/Manifest*.*"
+    )
+
+    classDirectories.setFrom(
+        fileTree("${layout.buildDirectory.get()}/intermediates/javac/debug/classes") { exclude(excludes) },
+        fileTree("${layout.buildDirectory.get()}/tmp/kotlin-classes/debug") { exclude(excludes) }
+    )
+    sourceDirectories.setFrom(files("src/main/java", "src/main/kotlin"))
+    executionData.setFrom(
+        fileTree(layout.buildDirectory.get()) { include("**/*.exec", "**/*.ec") }
+    )
 }
 
 dependencies {
