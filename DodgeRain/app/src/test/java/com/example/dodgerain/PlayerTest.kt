@@ -35,4 +35,28 @@ class PlayerTest {
         assertEquals(180f, player.x + player.width, 0.01f)
         assertEquals(280f, player.y + player.height, 0.01f)
     }
+
+    @Test
+    fun `isInBounds returns true when player fully within screen`() {
+        val player = Player(x = 100f, width = 80f)
+        assertTrue(player.isInBounds(1080))
+    }
+
+    @Test
+    fun `isInBounds returns false when player left edge is negative`() {
+        val player = Player(x = -1f, width = 80f)
+        assertFalse(player.isInBounds(1080))
+    }
+
+    @Test
+    fun `isInBounds returns false when player right edge exceeds screen`() {
+        val player = Player(x = 1010f, width = 80f)
+        assertFalse(player.isInBounds(1080))
+    }
+
+    @Test
+    fun `isInBounds returns true when player exactly fits screen`() {
+        val player = Player(x = 0f, width = 80f)
+        assertTrue(player.isInBounds(80))
+    }
 }
